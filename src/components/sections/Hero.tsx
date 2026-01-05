@@ -1,40 +1,44 @@
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
-import { useRef } from "react";
+import React from "react";
 
 export default function Hero() {
-  const ref = useRef<HTMLDivElement>(null);
-
-  useGSAP(
-    () => {
-      gsap.from(".hero-item", {
-        y: 40,
-        opacity: 0,
-        stagger: 0.15,
-        duration: 1,
-        ease: "power3.out",
-      });
-    },
-    { scope: ref }
-  );
-
   return (
     <section
-      ref={ref}
-      className="min-h-screen flex items-center justify-center bg-background px-6"
+      style={{
+        minHeight: "70vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "2rem",
+        background: "#0b1020",
+        color: "#fff",
+      }}
     >
-      <div className="max-w-3xl text-center">
-        <h1 className="hero-item text-5xl md:text-7xl font-display font-bold mb-6">
+      <div style={{ maxWidth: 800, textAlign: "center" }}>
+        <h1 style={{ fontSize: "2.5rem", marginBottom: "1rem" }}>
           Code × Commerce
         </h1>
-        <p className="hero-item text-lg md:text-xl text-muted-foreground mb-10">
+        <p
+          style={{
+            fontSize: "1.125rem",
+            color: "#cbd5e1",
+            marginBottom: "1.5rem",
+          }}
+        >
           Frontend & Shopify developer crafting high-performance digital
           experiences.
         </p>
 
         <a
           href="#contact"
-          className="hero-item inline-block px-8 py-4 rounded-xl bg-primary text-primary-foreground font-semibold hover:-translate-y-0.5 transition-all"
+          style={{
+            display: "inline-block",
+            padding: "0.75rem 1.5rem",
+            borderRadius: 12,
+            background: "#2563eb",
+            color: "#fff",
+            textDecoration: "none",
+            fontWeight: 600,
+          }}
         >
           Work with me
         </a>

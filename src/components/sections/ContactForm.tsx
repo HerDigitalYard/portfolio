@@ -1,134 +1,100 @@
-// import { useForm } from "react-hook-form";
-// import { zodResolver } from "@hookform/resolvers/zod";
-// import { insertMessageSchema, type InsertMessage } from "@shared/schema";
-// import { useSubmitContact } from "@/hooks/use-contact";
-// import { Loader2 } from "lucide-react";
-// import { useRef } from "react";
-// import { useGSAP } from "@gsap/react";
-// import gsap from "gsap";
+import React, { useState } from "react";
 
-// export function ContactForm() {
-//   const formRef = useRef<HTMLDivElement>(null);
+export function ContactForm() {
+  const [submitting, setSubmitting] = useState(false);
 
-//   useGSAP(
-//     () => {
-//       gsap.from(formRef.current, {
-//         scrollTrigger: {
-//           trigger: formRef.current,
-//           start: "top 80%",
-//         },
-//         y: 50,
-//         opacity: 0,
-//         duration: 1,
-//         ease: "power3.out",
-//       });
-//     },
-//     { scope: formRef }
-//   );
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setSubmitting(true);
+    // Simple placeholder behavior: you can wire this to your API later
+    await new Promise((r) => setTimeout(r, 800));
+    setSubmitting(false);
+    (e.target as HTMLFormElement).reset();
+    alert("Message sent (placeholder)");
+  };
 
-//   const {
-//     register,
-//     handleSubmit,
-//     formState: { errors },
-//     reset,
-//   } = useForm<InsertMessage>({
-//     resolver: zodResolver(insertMessageSchema),
-//   });
+  return (
+    <section
+      id="contact"
+      style={{ padding: "3rem 1rem", background: "#f8fafc" }}
+    >
+      <div style={{ maxWidth: 800, margin: "0 auto" }}>
+        <div
+          style={{
+            background: "#fff",
+            padding: "1.5rem",
+            borderRadius: 12,
+            boxShadow: "0 8px 24px rgba(2,6,23,0.08)",
+          }}
+        >
+          <div style={{ textAlign: "center", marginBottom: "1rem" }}>
+            <h2 style={{ fontSize: "1.75rem", margin: 0 }}>
+              Let's work together
+            </h2>
+            <p style={{ color: "#6b7280", marginTop: "0.5rem" }}>
+              Have a project in mind? I'd love to hear from you.
+            </p>
+          </div>
 
-//   const { mutate, isPending } = useSubmitContact();
+          <form
+            onSubmit={handleSubmit}
+            style={{ display: "grid", gap: "0.75rem" }}
+          >
+            <div style={{ display: "flex", gap: "0.75rem" }}>
+              <input
+                name="name"
+                placeholder="Your name"
+                style={{
+                  flex: 1,
+                  padding: "0.75rem",
+                  borderRadius: 8,
+                  border: "1px solid #e6e9ef",
+                }}
+                required
+              />
+              <input
+                name="email"
+                type="email"
+                placeholder="your@email.com"
+                style={{
+                  flex: 1,
+                  padding: "0.75rem",
+                  borderRadius: 8,
+                  border: "1px solid #e6e9ef",
+                }}
+                required
+              />
+            </div>
 
-//   const onSubmit = (data: InsertMessage) => {
-//     mutate(data, {
-//       onSuccess: () => reset(),
-//     });
-//   };
+            <textarea
+              name="message"
+              placeholder="Tell me about your project..."
+              rows={5}
+              style={{
+                padding: "0.75rem",
+                borderRadius: 8,
+                border: "1px solid #e6e9ef",
+              }}
+              required
+            />
 
-//   return (
-//     <section
-//       id="contact"
-//       className="py-24 md:py-32 bg-background relative overflow-hidden"
-//     >
-//       {/* Decorative blob */}
-//       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
-
-//       <div className="container mx-auto px-6 max-w-4xl">
-//         <div
-//           ref={formRef}
-//           className="bg-card border border-border/50 shadow-2xl shadow-black/5 rounded-3xl p-8 md:p-12 backdrop-blur-sm"
-//         >
-//           <div className="text-center mb-12">
-//             <h2 className="text-4xl md:text-5xl font-display font-bold mb-4">
-//               Let's work together
-//             </h2>
-//             <p className="text-muted-foreground text-lg">
-//               Have a project in mind? I'd love to hear from you.
-//             </p>
-//           </div>
-
-//           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-//             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-//               <div className="space-y-2">
-//                 <label className="text-sm font-medium ml-1">Name</label>
-//                 <input
-//                   {...register("name")}
-//                   placeholder="John Doe"
-//                   className="w-full px-4 py-3 rounded-xl bg-secondary/50 border border-transparent focus:bg-background focus:border-primary/20 focus:ring-4 focus:ring-primary/5 transition-all outline-none"
-//                 />
-//                 {errors.name && (
-//                   <p className="text-destructive text-sm ml-1">
-//                     {errors.name.message}
-//                   </p>
-//                 )}
-//               </div>
-
-//               <div className="space-y-2">
-//                 <label className="text-sm font-medium ml-1">Email</label>
-//                 <input
-//                   {...register("email")}
-//                   type="email"
-//                   placeholder="john@example.com"
-//                   className="w-full px-4 py-3 rounded-xl bg-secondary/50 border border-transparent focus:bg-background focus:border-primary/20 focus:ring-4 focus:ring-primary/5 transition-all outline-none"
-//                 />
-//                 {errors.email && (
-//                   <p className="text-destructive text-sm ml-1">
-//                     {errors.email.message}
-//                   </p>
-//                 )}
-//               </div>
-//             </div>
-
-//             <div className="space-y-2">
-//               <label className="text-sm font-medium ml-1">Message</label>
-//               <textarea
-//                 {...register("message")}
-//                 rows={5}
-//                 placeholder="Tell me about your project..."
-//                 className="w-full px-4 py-3 rounded-xl bg-secondary/50 border border-transparent focus:bg-background focus:border-primary/20 focus:ring-4 focus:ring-primary/5 transition-all outline-none resize-none"
-//               />
-//               {errors.message && (
-//                 <p className="text-destructive text-sm ml-1">
-//                   {errors.message.message}
-//                 </p>
-//               )}
-//             </div>
-
-//             <button
-//               type="submit"
-//               disabled={isPending}
-//               className="w-full md:w-auto px-8 py-4 bg-primary text-primary-foreground font-semibold rounded-xl hover:shadow-lg hover:shadow-primary/25 hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center gap-2 mx-auto"
-//             >
-//               {isPending ? (
-//                 <>
-//                   <Loader2 className="w-5 h-5 animate-spin" />
-//                   Sending...
-//                 </>
-//               ) : (
-//                 "Send Message"
-//               )}
-//             </button>
-//           </form>
-//         </div>
-//       </div>
-//     </section>
-//   );
-// }
+            <button
+              type="submit"
+              disabled={submitting}
+              style={{
+                padding: "0.75rem 1.25rem",
+                borderRadius: 10,
+                background: "#111827",
+                color: "#fff",
+                border: "none",
+                cursor: submitting ? "default" : "pointer",
+              }}
+            >
+              {submitting ? "Sending..." : "Send Message"}
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+  );
+}
