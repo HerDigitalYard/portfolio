@@ -108,15 +108,21 @@ const Hero = () => {
   return (
     <section ref={heroRef} className="hero-section">
       <div
-        ref={(el) => el && (circlesRef.current[0] = el)}
+        ref={(el) => {
+          if (el) circlesRef.current[0] = el;
+        }}
         className="floating-circle circle-1"
       ></div>
       <div
-        ref={(el) => el && (circlesRef.current[1] = el)}
+        ref={(el) => {
+          if (el) circlesRef.current[1] = el;
+        }}
         className="floating-circle circle-2"
       ></div>
       <div
-        ref={(el) => el && (circlesRef.current[2] = el)}
+        ref={(el) => {
+          if (el) circlesRef.current[2] = el;
+        }}
         className="floating-circle circle-3"
       ></div>
 
